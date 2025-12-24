@@ -193,29 +193,38 @@ export function Contact() {
             </InfoCard>
 
             {/* Map & QR */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-4">
-              <div className="bg-white p-2 shadow-sm rounded-2xl border border-slate-100 h-52 overflow-hidden">
-                <iframe
-                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3913.626884639414!2d75.8741!3d11.181!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTHCsDEwJzUxLjYiTiA3NcKwNTInMjYuOCJF!5e0!3m2!1sen!2sin!4v1625650000000!5m2!1sen!2sin"
-                  width="100%"
-                  height="100%"
-                  style={{ border: 0 }}
-                  loading="lazy"
-                  className="rounded-xl"
-                  title="Ramanattukara"
-                />
-              </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 h-auto md:h-64">
+  {/* Map */}
+  <div className="bg-white p-2 rounded-3xl shadow-lg border border-slate-100 overflow-hidden h-56 md:h-full relative group">
+    <iframe
+      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3913.435787163073!2d75.8694!3d11.1685!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ba651d66b5a3f51%3A0x6273752763267566!2sRamanattukara%2C%20Kerala!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin"
+      className="w-full h-full rounded-2xl grayscale group-hover:grayscale-0 transition-all duration-500"
+      loading="lazy"
+      style={{ border: 0 }}
+      title="Google Maps Location"
+    />
+  </div>
 
-              <div className="bg-white p-5 rounded-2xl shadow-sm border border-slate-100 text-center flex flex-col items-center justify-center">
-                <h3 className="font-bold text-sm mb-3 text-slate-800 uppercase tracking-tight">Follow Us</h3>
-                <img
-                  src="/insta.png"
-                  alt="Instagram QR Code"
-                  className="w-32 h-32 object-contain border border-slate-50 p-2 rounded-lg mb-2"
-                />
-                <p className="text-[10px] text-slate-400 uppercase font-medium">Scan with Instagram</p>
-              </div>
-            </div>
+  {/* QR Code */}
+  <div className="bg-slate-900 text-white rounded-3xl shadow-lg p-4 flex flex-col items-center justify-center text-center relative overflow-hidden">
+    <div className="absolute top-0 right-0 w-28 h-28 bg-amber-500 rounded-full blur-3xl opacity-20 translate-x-1/2 -translate-y-1/2"></div>
+
+    <h4 className="font-semibold text-base mb-3">Scan to Connect</h4>
+
+    <div className="bg-white p-1 rounded-xl mb-3">
+      <img
+        src="/insta.png"
+        alt="Scan QR"
+        className="w-36 h-36 object-contain"
+      />
+    </div>
+
+    <p className="text-slate-400 text-xs">
+      Point your camera to visit our profile
+    </p>
+  </div>
+</div>
+
           </motion.div>
         </div>
       </div>
