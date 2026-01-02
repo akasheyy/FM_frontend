@@ -11,7 +11,7 @@ export function Footer() {
               <div>
                 <h3 className="text-xl font-bold">FM EVENT PLANNERS</h3>
                 <p className="text-xs text-gray-400">
-                  Flavour Maker Event Management
+                  Flavour Makers Event Management
                 </p>
               </div>
             </div>
@@ -65,23 +65,8 @@ export function Footer() {
             <div className="flex gap-4">
               <motion.a whileHover={{
               scale: 1.2
-            }} href="#" className="bg-gray-800 p-2 rounded-full hover:bg-amber-500 transition-colors">
-                <FacebookIcon size={20} />
-              </motion.a>
-              <motion.a whileHover={{
-              scale: 1.2
-            }} href="https://instagram.com/fm_event_planners" className="bg-gray-800 p-2 rounded-full hover:bg-amber-500 transition-colors">
+            }} href="https://www.instagram.com/fm_event_planners?igsh=MXRhbmF2ZjZ2OTVpYw==" className="bg-gray-800 p-2 rounded-full hover:bg-amber-500 transition-colors">
                 <InstagramIcon size={20} />
-              </motion.a>
-              <motion.a whileHover={{
-              scale: 1.2
-            }} href="#" className="bg-gray-800 p-2 rounded-full hover:bg-amber-500 transition-colors">
-                <TwitterIcon size={20} />
-              </motion.a>
-              <motion.a whileHover={{
-              scale: 1.2
-            }} href="#" className="bg-gray-800 p-2 rounded-full hover:bg-amber-500 transition-colors">
-                <LinkedinIcon size={20} />
               </motion.a>
             </div>
           </div>

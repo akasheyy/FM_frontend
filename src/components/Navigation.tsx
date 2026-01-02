@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
+import { useLocation, useNavigate } from 'react-router-dom'; // Added for route detection
 import {
   MenuIcon,
   XIcon,
@@ -14,6 +15,12 @@ import {
 export function Navigation() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  
+  const location = useLocation();
+  const navigate = useNavigate();
+  
+  // Check if we are on the Home page
+  const isHomePage = location.pathname === '/';
 
   useEffect(() => {
     const handleScroll = () => {
@@ -24,47 +31,78 @@ export function Navigation() {
   }, []);
 
   const navLinks = [
-    { name: 'Home', href: '#home', icon: <Home size={20} /> },
-    { name: 'Services', href: '#services', icon: <UtensilsCrossed size={20} /> },
-    { name: 'Packages', href: '#menu', icon: <Package size={20} /> },
-    { name: 'About', href: '#about', icon: <Info size={20} /> },
-    { name: 'Gallery', href: '#gallery', icon: <ImageIcon size={20} /> },
-    { name: 'Contact', href: '#contact', icon: <Phone size={20} /> },
+    { name: 'Home', href: 'home', icon: <Home size={20} /> },
+    { name: 'Services', href: 'services', icon: <UtensilsCrossed size={20} /> },
+    { name: 'Packages', href: 'menu', icon: <Package size={20} /> },
+    { name: 'About', href: 'about', icon: <Info size={20} /> },
+    { name: 'Gallery', href: 'gallery', icon: <ImageIcon size={20} /> },
+    { name: 'Contact', href: 'contact', icon: <Phone size={20} /> },
   ];
+
+  const handleNavClick = (href: string) => {
+    setIsMobileMenuOpen(false);
+    
+    if (href === 'gallery') {
+      navigate('/gallery');
+      return;
+    }
+
+    if (!isHomePage) {
+      // If on gallery page, go home first then scroll
+      navigate(`/#${href}`);
+    } else {
+      // If already home, just scroll
+      const element = document.getElementById(href);
+      if (element) element.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
+  // Logic: Transparent ONLY if on Home Page AND not scrolled. 
+  // Otherwise (on Gallery or Scrolled), use White.
+  const navBgClass = (!isHomePage || isScrolled) 
+    ? 'bg-white shadow-lg py-3' 
+    : 'bg-transparent py-4';
+
+  const textColorClass = (!isHomePage || isScrolled)
+    ? 'text-gray-900'
+    : 'text-white';
+
+  const subTextColorClass = (!isHomePage || isScrolled)
+    ? 'text-gray-600'
+    : 'text-gray-200';
 
   return (
     <motion.nav
       initial={{ y: -100 }}
       animate={{ y: 0 }}
       transition={{ duration: 0.6 }}
-      className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${
-        isScrolled ? 'bg-white shadow-lg py-3' : 'bg-transparent py-4'
-      }`}
+      className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${navBgClass}`}
     >
       <div className="max-w-7xl mx-auto px-4">
         <div className="flex items-center justify-between">
           
-          {/* LOGO */}
-          <motion.div whileHover={{ scale: 1.05 }} className="flex items-center gap-3">
-            <img
-              src="/FM.jpg"
-              alt="FM Event Planners Logo"
-              className="h-12 w-12 object-contain rounded-full"
-            />
-            <div className="flex flex-col">
-              <span
-                className={`text-xl font-bold leading-tight ${
-                  isScrolled ? 'text-gray-900' : 'text-white'
-                }`}
-              >
+          {/* LOGO SECTION */}
+          <motion.div 
+            whileHover={{ scale: 1.02 }} 
+            className="flex items-center gap-3 cursor-pointer shrink-0"
+            onClick={() => navigate('/')}
+          >
+            <div className="h-12 w-12 flex-shrink-0">
+              <img
+      src="/FM.jpg"
+      alt="FM Event Planners Logo"
+      className="h-full w-full object-cover rounded-full border-2 border-black shadow-sm"
+      style={{ minWidth: '47px', minHeight: '47px' }} // Ensures it doesn't shrink on small screens
+    />
+  </div>
+            
+            
+            <div className="flex flex-col justify-center">
+              <span className={`text-xl font-bold leading-none mb-1 tracking-tight ${textColorClass}`}>
                 FM EVENT PLANNERS
               </span>
-              <span
-                className={`text-xs ${
-                  isScrolled ? 'text-gray-600' : 'text-gray-200'
-                }`}
-              >
-                Flavour Maker Event Management
+              <span className={`text-[10px] uppercase tracking-wider font-semibold opacity-90 ${subTextColorClass}`}>
+                Flavour Makers Event Management
               </span>
             </div>
           </motion.div>
@@ -74,10 +112,10 @@ export function Navigation() {
             {navLinks.map((link) => (
               <motion.button
                 key={link.name}
-                onClick={() => document.querySelector(link.href).scrollIntoView({ behavior: 'smooth' })}
+                onClick={() => handleNavClick(link.href)}
                 whileHover={{ scale: 1.05 }}
                 className={`flex items-center gap-2 font-medium transition-colors ${
-                  isScrolled
+                  (!isHomePage || isScrolled)
                     ? 'text-gray-700 hover:text-amber-600'
                     : 'text-white hover:text-amber-300'
                 }`}
@@ -86,61 +124,36 @@ export function Navigation() {
                 {link.name}
               </motion.button>
             ))}
-
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="bg-amber-500 text-white px-6 py-2 rounded-full font-medium hover:bg-amber-600 transition-colors"
-            >
-              Book Now
-            </motion.button>
           </div>
 
           {/* MOBILE MENU BUTTON */}
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className={`md:hidden ${isScrolled ? 'text-gray-700' : 'text-white'}`}
+            className={`md:hidden ${(!isHomePage || isScrolled) ? 'text-gray-700' : 'text-white'}`}
           >
             {isMobileMenuOpen ? <XIcon size={26} /> : <MenuIcon size={26} />}
           </button>
         </div>
       </div>
 
-      {/* BACKDROP */}
-      {isMobileMenuOpen && (
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 0.4 }}
-          className="fixed inset-0 bg-black md:hidden z-40"
-          onClick={() => setIsMobileMenuOpen(false)}
-        />
-      )}
-
-      {/* RIGHT-SIDE MOBILE MENU */}
+      {/* MOBILE MENU SLIDE-OUT */}
       <motion.div
         initial={{ x: '100%' }}
         animate={{ x: isMobileMenuOpen ? 0 : '100%' }}
         transition={{ type: 'tween', duration: 0.4 }}
         className="fixed top-0 right-0 h-full w-64 bg-white shadow-2xl md:hidden z-50 p-6"
       >
-        <div className="flex flex-col space-y-2">
+        <div className="flex flex-col space-y-6 mt-10">
           {navLinks.map((link) => (
             <button
               key={link.name}
-              onClick={() => {
-                setIsMobileMenuOpen(false);
-                document.querySelector(link.href).scrollIntoView({ behavior: 'smooth' });
-              }}
-              className="flex items-center gap-3 text-lg text-gray-700 hover:text-amber-600 font-medium"
+              onClick={() => handleNavClick(link.href)}
+              className="flex items-center gap-4 text-lg text-gray-700 hover:text-amber-600 font-medium"
             >
-              {link.icon}
+              <span className="text-amber-600">{link.icon}</span>
               {link.name}
             </button>
           ))}
-
-          <button className="w-full bg-amber-500 text-white px-6 py-2 rounded-full font-medium hover:bg-amber-600">
-            Book Now
-          </button>
         </div>
       </motion.div>
     </motion.nav>

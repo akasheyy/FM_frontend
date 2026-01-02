@@ -1,183 +1,124 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import API from "../lib/api";
 import { motion, AnimatePresence } from "framer-motion";
-import { XIcon, MenuIcon, ArrowLeft, Home, UtensilsCrossed, Package, Info, ImageIcon, Phone } from "lucide-react";
-import { Link } from "react-router-dom";
+import { XIcon, ChevronLeft, ChevronRight } from "lucide-react";
+import { Navigation } from "../components/Navigation";
 
 export default function FullGallery() {
-  const [images, setImages] = useState([]);
-  const [selectedImage, setSelectedImage] = useState<string | null>(null);
-  const [mobileOpen, setMobileOpen] = useState(false);
+  const [images, setImages] = useState<any[]>([]);
+  const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
 
-  // Load all images
   useEffect(() => {
     API.get("/gallery")
       .then((res) => setImages(res.data))
       .catch(() => console.log("Failed to load full gallery"));
   }, []);
 
-  // NAVIGATION LINKS (same as main nav)
-  const navLinks = [
-    { name: "Home", href: "/", icon: <Home size={20} /> },
-    { name: "Services", href: "/#services", icon: <UtensilsCrossed size={20} /> },
-    { name: "Packages", href: "/#menu", icon: <Package size={20} /> },
-    { name: "About", href: "/#about", icon: <Info size={20} /> },
-    { name: "Gallery", href: "/gallery", icon: <ImageIcon size={20} /> },
-    { name: "Contact", href: "/#contact", icon: <Phone size={20} /> },
-  ];
+  // Navigation Logic
+  const showNext = useCallback((e?: React.MouseEvent) => {
+    e?.stopPropagation();
+    if (selectedIndex !== null) {
+      setSelectedIndex((prev) => (prev! + 1) % images.length);
+    }
+  }, [selectedIndex, images.length]);
+
+  const showPrev = useCallback((e?: React.MouseEvent) => {
+    e?.stopPropagation();
+    if (selectedIndex !== null) {
+      setSelectedIndex((prev) => (prev! - 1 + images.length) % images.length);
+    }
+  }, [selectedIndex, images.length]);
+
+  // Keyboard Support
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (selectedIndex === null) return;
+      if (e.key === "ArrowRight") showNext();
+      if (e.key === "ArrowLeft") showPrev();
+      if (e.key === "Escape") setSelectedIndex(null);
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [selectedIndex, showNext, showPrev]);
 
   return (
-    <>
-      {/* -------------------- NAVBAR -------------------- */}
-      <nav className="fixed top-0 left-0 right-0 bg-white shadow-lg py-3 z-40 transition-all duration-300">
-        <div className="max-w-7xl mx-auto px-4 flex items-center justify-between">
+    <div className="min-h-screen bg-white">
+      <Navigation />
 
-          {/* LOGO */}
-          <div className="flex items-center gap-3">
-            <img
-              src="/FM.jpg"
-              alt="FM Logo"
-              className="h-12 w-12 rounded-full object-cover"
-            />
-            <div className="flex flex-col">
-              <span className="text-xl font-bold text-gray-900">FM EVENT PLANNERS</span>
-              <span className="text-xs text-gray-600">Flavour Maker Event Management</span>
-            </div>
-          </div>
-
-          {/* DESKTOP BACK BUTTON */}
-          <div className="hidden md:flex items-center space-x-8">
-            <Link
-              to="/"
-              className="flex items-center gap-2 bg-amber-500 text-white px-6 py-2 rounded-full font-medium hover:bg-amber-600 transition"
-            >
-              <ArrowLeft size={18} />
-              Back to Home
-            </Link>
-          </div>
-
-          {/* MOBILE MENU BUTTON */}
-          <button
-            onClick={() => setMobileOpen(!mobileOpen)}
-            className="md:hidden text-gray-800"
-          >
-            <MenuIcon size={26} />
-          </button>
-        </div>
-
-        {/* BACKDROP */}
-        {mobileOpen && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 0.4 }}
-            className="fixed inset-0 bg-black md:hidden z-40"
-            onClick={() => setMobileOpen(false)}
-          />
-        )}
-
-        {/* MOBILE SLIDE MENU */}
-        <motion.div
-          initial={{ x: "100%" }}
-          animate={{ x: mobileOpen ? 0 : "100%" }}
-          transition={{ type: "tween", duration: 0.4 }}
-          className="fixed top-0 right-0 h-full w-64 bg-white shadow-2xl z-50 p-6 md:hidden"
-        >
-          <div className="flex flex-col space-y-4">
-
-            {/* Close button */}
-            <button
-              onClick={() => setMobileOpen(false)}
-              className="self-end text-gray-700 mb-4"
-            >
-              <XIcon size={26} />
-            </button>
-
-            {/* Navigation links */}
-            {navLinks.map((link) => (
-              <a
-                key={link.name}
-                href={link.href}
-                onClick={() => setMobileOpen(false)}
-                className="flex items-center gap-3 text-lg text-gray-700 hover:text-amber-600"
-              >
-                {link.icon}
-                {link.name}
-              </a>
-            ))}
-
-            {/* Back to home in mobile */}
-            <a
-              href="/"
-              className="flex items-center gap-2 bg-amber-500 text-white px-6 py-3 rounded-full font-medium hover:bg-amber-600 transition"
-            >
-              <ArrowLeft size={18} />
-              Back to Home
-            </a>
-          </div>
-        </motion.div>
-      </nav>
-
-      {/* -------------------- PAGE CONTENT -------------------- */}
-      <section className="pt-32 pb-20 bg-white">
+      <section className="pt-32 pb-20">
         <div className="max-w-7xl mx-auto px-4">
-
-          {/* Header */}
           <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">Gallery</h2>
+            <motion.h2 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-4xl font-bold text-gray-900 mb-4">Gallery</motion.h2>
             <p className="text-xl text-gray-600">Explore all our uploaded works</p>
           </div>
 
-          {/* Images */}
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-            {images.length === 0 ? (
-              <p className="col-span-full text-center text-gray-500 py-10">Loading images...</p>
-            ) : (
-              images.map((img, index) => (
-                <motion.div
-                  key={img._id}
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ duration: 0.4, delay: index * 0.05 }}
-                  whileHover={{ scale: 1.05 }}
-                  className="relative h-64 rounded-xl overflow-hidden cursor-pointer shadow-lg"
-                  onClick={() => setSelectedImage(img.url)}
-                >
-                  <img src={img.url} alt="Gallery" className="w-full h-full object-cover" />
-                </motion.div>
-              ))
-            )}
+            {images.map((img, index) => (
+              <motion.div
+                key={img._id}
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: index * 0.05 }}
+                whileHover={{ scale: 1.03 }}
+                className="relative h-64 rounded-xl overflow-hidden cursor-pointer shadow-md"
+                onClick={() => setSelectedIndex(index)}
+              >
+                <img src={img.url} alt="Gallery" className="w-full h-full object-cover" />
+              </motion.div>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* -------------------- IMAGE MODAL -------------------- */}
+      {/* -------------------- FULL SCREEN SLIDER MODAL -------------------- */}
       <AnimatePresence>
-        {selectedImage && (
+        {selectedIndex !== null && (
           <motion.div
-            className="fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-4"
+            className="fixed inset-0 bg-black/95 z-[60] flex items-center justify-center"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            onClick={() => setSelectedImage(null)}
+            onClick={() => setSelectedIndex(null)}
           >
-            <motion.button
-              className="absolute top-4 right-4 text-white bg-amber-500 p-2 rounded-full"
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-            >
-              <XIcon size={24} />
-            </motion.button>
+            {/* Close Button */}
+            <button className="absolute top-6 right-6 text-white z-[70] p-2 bg-white/10 rounded-full hover:bg-white/20 transition-colors">
+              <XIcon size={32} />
+            </button>
 
+            {/* Previous Button */}
+            <button 
+              onClick={showPrev}
+              className="absolute left-4 md:left-8 text-white z-[70] p-3 bg-white/5 rounded-full hover:bg-white/20 transition-colors"
+            >
+              <ChevronLeft size={40} />
+            </button>
+
+            {/* Next Button */}
+            <button 
+              onClick={showNext}
+              className="absolute right-4 md:right-8 text-white z-[70] p-3 bg-white/5 rounded-full hover:bg-white/20 transition-colors"
+            >
+              <ChevronRight size={40} />
+            </button>
+
+            {/* Image Counter */}
+            <div className="absolute bottom-6 text-white/60 font-medium">
+              {selectedIndex + 1} / {images.length}
+            </div>
+
+            {/* Main Image */}
             <motion.img
-              src={selectedImage}
-              className="max-w-full max-h-full rounded-xl"
-              initial={{ scale: 0.8 }}
-              animate={{ scale: 1 }}
-              exit={{ scale: 0.8 }}
+              key={images[selectedIndex].url} // Key ensures animation triggers on skip
+              src={images[selectedIndex].url}
+              className="max-w-[90vw] max-h-[85vh] object-contain rounded-sm shadow-2xl"
+              initial={{ x: 100, opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              exit={{ x: -100, opacity: 0 }}
+              transition={{ type: "spring", stiffness: 300, damping: 30 }}
             />
           </motion.div>
         )}
       </AnimatePresence>
-    </>
+    </div>
   );
 }

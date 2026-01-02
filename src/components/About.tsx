@@ -33,13 +33,7 @@ export function About() {
               From intimate gatherings to grand celebrations, we handle every
               detail with precision and care.
             </p>
-            <motion.button whileHover={{
-            scale: 1.05
-          }} whileTap={{
-            scale: 0.95
-          }} className="bg-amber-500 text-white px-8 py-3 rounded-full font-semibold hover:bg-amber-600 transition-colors">
-              Learn More
-            </motion.button>
+          
           </motion.div>
 
           <motion.div initial={{
