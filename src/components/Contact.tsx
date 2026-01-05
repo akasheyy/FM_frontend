@@ -240,7 +240,7 @@ export function Contact() {
             </InfoCard>
 
             <InfoCard icon={<MailIcon size={20} />} title="Email">
-              info@fmeventplanners.com
+              fmeventtplanners@gmail.com
             </InfoCard>
 
             <InfoCard icon={<InstagramIcon size={20} />} title="Instagram">
