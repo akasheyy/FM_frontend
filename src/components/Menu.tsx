@@ -15,7 +15,7 @@ export function Menu() {
       name: "Premium Wedding Package",
       description:
         "Complete wedding decoration with stage setup, floral arrangements, lighting, and catering for 200+ guests",
-      price: "Contact",
+      
     },
     {
       image:
@@ -23,7 +23,7 @@ export function Menu() {
       name: "Elegant Reception Decor",
       description:
         "Sophisticated reception decoration with backdrop, centerpieces, and ambient lighting",
-      price: "Contact",
+      
     },
     {
       image:
@@ -31,7 +31,7 @@ export function Menu() {
       name: "Birthday Party Special",
       description:
         "Themed birthday decoration with balloon arrangements, backdrop, and catering services",
-      price: "Contact",
+      
     },
     {
       image:
@@ -39,7 +39,7 @@ export function Menu() {
       name: "Catering Excellence",
       description:
         "Multi-cuisine catering with appetizers, main course, desserts, and beverage service",
-      price: "Contact",
+      
     },
     {
       image:
@@ -47,7 +47,7 @@ export function Menu() {
       name: "Corporate Event Package",
       description:
         "Professional event setup with stage decoration, seating arrangements, and business lunch catering",
-      price: "Contact",
+      
     },
     {
       image:
@@ -55,7 +55,7 @@ export function Menu() {
       name: "Custom Event Design",
       description:
         "Personalized decoration and catering tailored to your specific theme and requirements",
-      price: "Contact",
+      
     },
   ];
 
