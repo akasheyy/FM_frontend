@@ -98,10 +98,10 @@ export function Navigation() {
             
             
             <div className="flex flex-col justify-center">
-              <span className={`text-xl font-bold leading-none mb-1 tracking-tight ${textColorClass}`}>
+              <span className={`text-[25px] font-serif leading-none mb-1 tracking-tight ${textColorClass}`}>
                 FM EVENT PLANNERS
               </span>
-              <span className={`text-[10px] uppercase tracking-wider font-semibold opacity-90 ${subTextColorClass}`}>
+              <span className={`text-[10px] uppercase tracking-wider font-serif opacity-90 ${subTextColorClass}`}>
                 Flavour Makers Event Management
               </span>
             </div>
