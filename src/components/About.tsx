@@ -22,7 +22,7 @@ export function About() {
               About FM Event Planners
             </h2>
             <p className="text-lg text-gray-600 mb-6 leading-relaxed">
-              FM Event Planners (Flavour Maker Event Management) is your trusted
+              FM Event Planners (Flavour Makers Event Management) is your trusted
               partner for creating memorable events. We specialize in wedding
               decorations, event setup, and comprehensive catering services that
               bring your vision to life.
