@@ -8,7 +8,8 @@ export function Hero() {
         <div className="absolute inset-0 bg-black/50" />
       </div>
 
-      <div className="relative z-10 h-full flex items-center justify-center text-center px-4">
+      <div className="relative z-10 h-full flex items-center justify-center text-center px-10 pt-11">
+        
         <div className="max-w-4xl">
           <motion.div initial={{
           opacity: 0,
@@ -68,7 +69,7 @@ export function Hero() {
     }} transition={{
       duration: 1,
       delay: 1
-    }} className="absolute bottom-8 left-1/2 transform -translate-x-1/2">
+    }} className="absolute bottom-0 left-1/2 transform -translate-x-1/2">
         <motion.div animate={{
         y: [0, 10, 0]
       }} transition={{
