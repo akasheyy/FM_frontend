@@ -8,7 +8,7 @@ export function Hero() {
         <div className="absolute inset-0 bg-black/50" />
       </div>
 
-      <div className="relative z-10 h-full flex items-center justify-center text-center px-10 pt-11">
+      <div className="relative z-10 h-full flex items-center justify-center text-center px-10">
         
         <div className="max-w-4xl">
           <motion.div initial={{
