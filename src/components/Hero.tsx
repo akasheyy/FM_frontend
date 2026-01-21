@@ -69,7 +69,7 @@ export function Hero() {
     }} transition={{
       duration: 1,
       delay: 1
-    }} className="absolute bottom-5 left-1/2 transform -translate-x-1/2">
+    }} className="absolute bottom-8 left-1/2 transform -translate-x-1/2">
         <motion.div animate={{
         y: [0, 10, 0]
       }} transition={{
