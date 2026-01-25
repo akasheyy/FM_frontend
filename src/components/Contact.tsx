@@ -114,6 +114,7 @@ export function Contact() {
       </AnimatePresence>
 
        <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-5">
+
         {/* Header */}
         <motion.div
           ref={ref}
