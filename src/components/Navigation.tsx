@@ -98,8 +98,7 @@ export function Navigation() {
             
             
             <div className="flex flex-col justify-center">
-              <span onClick={() => navigate('/')}className={`text-[25px] font-balmoral leading-none mb-1 tracking-tight cursor-pointer select-none ${textColorClass}`}
- style={{ wordSpacing: '0.5em' }}>
+              <span onClick={() => navigate('/')}className={`text-[25px] font-serif leading-none mb-1 tracking-tight cursor-pointer select-none ${textColorClass}`}>
   FM  EVENT  PLANNERS
 </span>
 
