@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { useLocation, useNavigate } from 'react-router-dom'; // Added for route detection
 import {
@@ -15,7 +15,8 @@ import {
 export function Navigation() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  
+  const menuRef = useRef<HTMLDivElement>(null);
+
   const location = useLocation();
   const navigate = useNavigate();
   
@@ -29,6 +30,22 @@ export function Navigation() {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+        setIsMobileMenuOpen(false);
+      }
+    };
+
+    if (isMobileMenuOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isMobileMenuOpen]);
 
   const navLinks = [
     { name: 'Home', href: 'home', icon: <Home size={20} /> },
@@ -98,11 +115,11 @@ export function Navigation() {
             
             
             <div className="flex flex-col justify-center">
-              <span onClick={() => navigate('/')}className={`text-[25px] font-serif leading-none mb-1 tracking-tight cursor-pointer select-none ${textColorClass}`}>
+              <span onClick={() => navigate('/')}className={`text-lg sm:text-xl md:text-2xl font-serif leading-none mb-1 tracking-tight cursor-pointer select-none ${textColorClass}`}>
   FM  EVENT  PLANNERS
 </span>
 
-              <span className={`text-[10px] uppercase tracking-wider font-serif opacity-90 ${subTextColorClass}`}>
+              <span className={`text-[8px] sm:text-[10px] uppercase tracking-wider font-serif opacity-90 ${subTextColorClass}`}>
                 Flavour Makers Event Management
               </span>
             </div>
@@ -139,6 +156,7 @@ export function Navigation() {
 
       {/* MOBILE MENU SLIDE-OUT */}
       <motion.div
+        ref={menuRef}
         initial={{ x: '100%' }}
         animate={{ x: isMobileMenuOpen ? 0 : '100%' }}
         transition={{ type: 'tween', duration: 0.4 }}
