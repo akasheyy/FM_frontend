@@ -98,28 +98,30 @@ export function Navigation() {
       <div className="max-w-7xl mx-auto px-4">
         <div className="flex items-center justify-between">
           
-          {/* LOGO SECTION */}
-          <motion.div 
-            whileHover={{ scale: 1.02 }} 
-            className="flex items-center gap-3 cursor-pointer shrink-0"
+          {/* LOGO */}
+          <motion.div
+            whileHover={{ scale: 1.05 }}
+            className="flex items-center gap-3 cursor-pointer"
             onClick={() => navigate('/')}
           >
-            <div className="h-12 w-12 flex-shrink-0">
-              <img
-      src="/FM.jpg"
-      alt="FM Event Planners Logo"
-      className="h-full w-full object-cover rounded-full border-2 border-black shadow-sm"
-      style={{ minWidth: '47px', minHeight: '47px' }} // Ensures it doesn't shrink on small screens
-    />
-  </div>
-            
-            
-            <div className="flex flex-col justify-center">
-              <span onClick={() => navigate('/')}className={`text-lg sm:text-xl md:text-2xl font-serif leading-none mb-1 tracking-tight cursor-pointer select-none ${textColorClass}`}>
-  FM  EVENT  PLANNERS
-</span>
-
-              <span className={`text-[8px] sm:text-[10px] uppercase tracking-wider font-serif opacity-90 ${subTextColorClass}`}>
+            <img
+              src="/FM.jpg"
+              alt="FM Event Planners Logo"
+              className="h-12 w-12 object-contain rounded-full"
+            />
+            <div className="flex flex-col">
+              <span
+                className={`text-xl font-bold leading-tight ${
+                  (!isHomePage || isScrolled) ? 'text-gray-900' : 'text-white'
+                }`}
+              >
+                FM EVENT PLANNERS
+              </span>
+              <span
+                className={`text-xs ${
+                  (!isHomePage || isScrolled) ? 'text-gray-600' : 'text-gray-200'
+                }`}
+              >
                 Flavour Makers Event Management
               </span>
             </div>
